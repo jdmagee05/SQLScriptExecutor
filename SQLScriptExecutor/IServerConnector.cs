@@ -15,10 +15,16 @@ namespace SQLScriptExecutor
         string Username { get; set; }
         string Password { get; set; }
         Server Server { get; set; }
+        ServerType ServerType { get; set; }
+        bool ConnectionSuccessful { get; set; }
 
         DialogResult Form { get; set; }
 
-        event VoidHandler Connect;
+        event VoidHandler ConnectToSqlServer;
+        event VoidHandler ConnectToMySql;
         event VoidHandler Cancel;
+
+        bool SqlServerButtonEnabled { set; }
+        bool MySqlButtonEnabled { set; }
     }
 }

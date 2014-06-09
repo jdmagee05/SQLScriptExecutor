@@ -33,6 +33,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSqlConnect = new System.Windows.Forms.Button();
             this.panelButtons = new System.Windows.Forms.Panel();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.grpBoxOutput = new System.Windows.Forms.GroupBox();
             this.txtOutput = new System.Windows.Forms.RichTextBox();
             this.grpBoxFiles = new System.Windows.Forms.GroupBox();
@@ -43,8 +44,8 @@
             // 
             // lvFileViewer
             // 
-            this.lvFileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lvFileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvFileViewer.GridLines = true;
             this.lvFileViewer.Location = new System.Drawing.Point(6, 19);
@@ -76,7 +77,7 @@
             // 
             // btnSqlConnect
             // 
-            this.btnSqlConnect.Location = new System.Drawing.Point(7, 291);
+            this.btnSqlConnect.Location = new System.Drawing.Point(7, 261);
             this.btnSqlConnect.Name = "btnSqlConnect";
             this.btnSqlConnect.Size = new System.Drawing.Size(112, 23);
             this.btnSqlConnect.TabIndex = 3;
@@ -86,6 +87,7 @@
             // 
             // panelButtons
             // 
+            this.panelButtons.Controls.Add(this.btnDisconnect);
             this.panelButtons.Controls.Add(this.btnSqlConnect);
             this.panelButtons.Controls.Add(this.btnExecute);
             this.panelButtons.Controls.Add(this.btnClear);
@@ -93,6 +95,16 @@
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(122, 320);
             this.panelButtons.TabIndex = 4;
+            // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Location = new System.Drawing.Point(7, 290);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(112, 23);
+            this.btnDisconnect.TabIndex = 4;
+            this.btnDisconnect.Text = "Disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // grpBoxOutput
             // 
@@ -106,8 +118,8 @@
             // 
             // txtOutput
             // 
-            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutput.Location = new System.Drawing.Point(6, 19);
             this.txtOutput.Name = "txtOutput";
@@ -124,7 +136,7 @@
             this.grpBoxFiles.Size = new System.Drawing.Size(310, 317);
             this.grpBoxFiles.TabIndex = 6;
             this.grpBoxFiles.TabStop = false;
-            this.grpBoxFiles.Text = "Drag & Drop Files Here...";
+            this.grpBoxFiles.Text = "Drag and Drop Files Here...";
             // 
             // frmExecutor
             // 
@@ -135,6 +147,7 @@
             this.Controls.Add(this.grpBoxOutput);
             this.Controls.Add(this.panelButtons);
             this.Name = "frmExecutor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SQL Executor";
             this.Load += new System.EventHandler(this.frmExecutor_Load);
             this.panelButtons.ResumeLayout(false);
@@ -154,6 +167,7 @@
         private System.Windows.Forms.GroupBox grpBoxOutput;
         private System.Windows.Forms.RichTextBox txtOutput;
         private System.Windows.Forms.GroupBox grpBoxFiles;
+        private System.Windows.Forms.Button btnDisconnect;
     }
 }
 

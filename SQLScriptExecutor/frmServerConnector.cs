@@ -14,17 +14,13 @@ namespace SQLScriptExecutor
     public partial class frmServerConnector : Form, IServerConnector
     {
         private ServerConnectorPresenter m_Presenter;
-        private Server m_Server;
 
         public frmServerConnector()
         {
             InitializeComponent();
         }
 
-        private void frmServerConnector_Load(object sender, EventArgs e)
-        {
-            m_Presenter = new ServerConnectorPresenter(this);
-        }
+        #region Getters and Setters
 
         public string ServerName
         {
@@ -50,11 +46,11 @@ namespace SQLScriptExecutor
             set { txtPassword.Text = value; }
         }
 
-        public Server Server
-        {
-            get { return m_Server; }
-            set { m_Server = value; }
-        }
+        public Server Server { get; set; }
+
+        public ServerType ServerType { get; set; }
+
+        public bool ConnectionSuccessful { get; set; }
 
         public DialogResult Form
         {
@@ -62,17 +58,44 @@ namespace SQLScriptExecutor
             set { this.DialogResult = value; }
         }
 
-        public event VoidHandler Connect;
+        public bool SqlServerButtonEnabled
+        {
+            set { btnConnect.Enabled = value; }
+        }
+
+        public bool MySqlButtonEnabled
+        {
+            set { btnMySqlConnect.Enabled = value; }
+        }
+
+        #endregion
+
+        public event VoidHandler ConnectToSqlServer;
+        public event VoidHandler ConnectToMySql;
         public event VoidHandler Cancel;
+
+        #region Events
+
+        private void frmServerConnector_Load(object sender, EventArgs e)
+        {
+            m_Presenter = new ServerConnectorPresenter(this);
+        }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            Connect();
+            ConnectToSqlServer();
+        }
+
+        private void btnMySqlConnect_Click(object sender, EventArgs e)
+        {
+            ConnectToMySql();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Cancel();
         }
+
+        #endregion
     }
 }

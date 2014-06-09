@@ -72,6 +72,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConnectorPresenter.cs" />
+    <Compile Include="ServerType.cs" />
     <EmbeddedResource Include="frmExecutor.resx">
       <DependentUpon>frmExecutor.cs</DependentUpon>
     </EmbeddedResource>

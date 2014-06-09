@@ -13,8 +13,6 @@ namespace SQLScriptExecutor
     public class ServerConnectorPresenter
     {
         private IServerConnector m_View;
-        private string m_SqlConnectionString;
-        private Server m_Server;
 
         public ServerConnectorPresenter(IServerConnector view)
         {
@@ -24,15 +22,35 @@ namespace SQLScriptExecutor
 
         private void Initialize()
         {
-            m_View.Connect += Connect;
+            m_View.ConnectToSqlServer += ConnectToSqlServer;
+            m_View.ConnectToMySql += ConnectToMySql;
             m_View.Cancel += Cancel;
         }
 
-        private void Connect()
+        private void ConnectToSqlServer()
         {
-            SqlConnection conn = new SqlConnection(SqlConnectionString());
-            m_View.Server = new Server(new ServerConnection(conn));
-            m_View.Form = DialogResult.OK;
+            SqlConnection conn = new SqlConnection(SqlServerConnectionString());
+            try
+            {
+                conn.Open();
+                m_View.Server = new Server(new ServerConnection(conn));
+                m_View.Form = DialogResult.OK;
+                m_View.MySqlButtonEnabled = false;
+                m_View.ServerType = ServerType.SqlServer;
+                m_View.ConnectionSuccessful = true;
+            }
+            catch (SqlException e)
+            {
+                m_View.Form = DialogResult.Abort;
+                m_View.ConnectionSuccessful = false;
+            }
+        }
+
+        private void ConnectToMySql()
+        {
+            //TODO -  implement connection code
+            m_View.SqlServerButtonEnabled = false;
+            m_View.ServerType = ServerType.MySql;
         }
 
         private void Cancel()
@@ -40,13 +58,19 @@ namespace SQLScriptExecutor
             m_View.Form = DialogResult.Cancel;
         }
 
-        private string SqlConnectionString()
+        private string SqlServerConnectionString()
         {
             string connectionString = "Integrated Security=SSPI;" +
                                       "Persist Security Info=True;" +
                                       "Initial Catalog=" + m_View.DatabaseName + ";" +
                                       "Data Source=" + m_View.ServerName + ";";
             return connectionString;
+        }
+
+        private string MySqlConnectionString()
+        {
+            //TODO - code for connection string
+            return "";
         }
     }
 }

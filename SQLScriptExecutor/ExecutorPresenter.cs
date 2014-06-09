@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,19 +22,20 @@ namespace SQLScriptExecutor
 
         private void Initialize()
         {
-            //subscribe to events
             m_View.AddFilesToFileViewer += AddFilesToFileViewer;
             m_View.ClearFiles += ClearFiles;
             m_View.Execute += Execute;
             m_View.OpenServerConnector += OpenServerConnector;
+            m_View.Disconnect += Disconnect;
 
             m_View.ExecuteEnabled = false;
             m_View.ClearEnabled = false;
+            m_View.DisconnectButtonEnabled = false;
         }
 
         private void AddFilesToFileViewer()
         {
-            foreach(string file in m_View.RecentlyAddedFiles)
+            foreach (string file in m_View.RecentlyAddedFiles)
             {
                 if (Path.GetExtension(file) == ".sql")
                 {
@@ -48,39 +50,81 @@ namespace SQLScriptExecutor
         {
             m_View.Files.Clear();
             m_View.FileViewer.Clear();
-            DisableButtons();
+            DisableExecuteAndClearButtons();
         }
 
         private void Execute()
         {
-            foreach (string file in m_View.Files)
+            switch (m_View.ServerType)
             {
-                var fileInfo = new FileInfo(file);
-                string script = fileInfo.OpenText().ReadToEnd();
-                try
-                {
-                    m_View.Server.ConnectionContext.ExecuteNonQuery(script);
-                    m_View.Output += Path.GetFileNameWithoutExtension(file) + "executed successfully\n";
-                }
-                catch (NullReferenceException)
-                {
-                    m_View.Output += "CONNECT TO SERVER";
+                case ServerType.None:
+                    m_View.Output += "CONNECT TO A SERVER\n";
                     break;
-                }
-                catch (ExecutionFailureException ex)
-                {
-                    m_View.Output += "FAILURE EXECUTING: " + Path.GetFileNameWithoutExtension(file) + "\n";
-                    m_View.Output += ex.Message + "\n";
+
+                case ServerType.SqlServer:
+                    foreach (string file in m_View.Files)
+                    {
+                        ExecuteSqlServer(file);
+                    }
                     break;
-                }
+
+                case ServerType.MySql:
+                    foreach (string file in m_View.Files)
+                    {
+                        ExecuteMySql(file);
+                    }
+                    break;
             }
+
+        }
+
+        private void ExecuteSqlServer(string file)
+        {
+            var fileInfo = new FileInfo(file);
+            string script = fileInfo.OpenText().ReadToEnd();
+            try
+            {
+                m_View.Server.ConnectionContext.ExecuteNonQuery(script);
+                m_View.Output += Path.GetFileNameWithoutExtension(file) + " executed successfully!\n";
+            }
+            catch (NullReferenceException)
+            {
+                m_View.Output += "CONNECT TO A SERVER\n";
+            }
+            catch (ExecutionFailureException ex)
+            {
+                m_View.Output += "FAILURE EXECUTING: " + Path.GetFileNameWithoutExtension(file) + "\n";
+                m_View.Output += ex.Message + "\n";
+            }
+        }
+
+        private void ExecuteMySql(string file)
+        {
+            //TODO - implement code for executing MySql query
         }
 
         private void OpenServerConnector()
         {
             frmServerConnector serverConnection = new frmServerConnector();
             serverConnection.ShowDialog();
-            m_View.Server = serverConnection.Server;
+            if (serverConnection.ConnectionSuccessful)
+            {
+                m_View.Server = serverConnection.Server;
+                m_View.ServerType = serverConnection.ServerType;
+                m_View.DatabaseName = serverConnection.DatabaseName;
+                m_View.ServerName = serverConnection.ServerName;
+                m_View.Output = "Connected to " + m_View.DatabaseName + " on " + m_View.ServerName + "\n";
+                m_View.ConnectButtonEnabled = false;
+                m_View.DisconnectButtonEnabled = true;
+            }
+            else if (serverConnection.Form == DialogResult.Cancel)
+            {
+                m_View.Output += "Server connection cancelled\n";
+            }
+            else
+            {
+                m_View.Output += "CONNECTION FAILED!\n";
+            }
         }
 
         private void EnableExecuteAndClearButtons()
@@ -89,10 +133,48 @@ namespace SQLScriptExecutor
             m_View.ClearEnabled = true;
         }
 
-        private void DisableButtons()
+        private void DisableExecuteAndClearButtons()
         {
             m_View.ExecuteEnabled = false;
             m_View.ClearEnabled = false;
         }
+
+        private void Disconnect()
+        {
+            switch (m_View.ServerType)
+            {
+                case ServerType.SqlServer:
+                    DisconnectFromSqlServer();
+                    break;
+
+                case ServerType.MySql:
+                    DisconnectFromMySql();
+                    break;
+            }
+
+            m_View.Output += "Disconnected from " + m_View.ServerName + "\n";
+            m_View.ConnectButtonEnabled = true;
+            m_View.DisconnectButtonEnabled = false;
+            ResetServerInformation();
+        }
+
+        private void DisconnectFromSqlServer()
+        {
+            m_View.Server.ConnectionContext.Disconnect();
+        }
+
+        private void DisconnectFromMySql()
+        {
+            //TODO - implement code for disconnecting from MySql Server
+        }
+
+        private void ResetServerInformation()
+        {
+            m_View.Server = null;
+            m_View.ServerType = ServerType.None;
+            m_View.ServerName = null;
+            m_View.DatabaseName = null;
+        }
     }
 }
+

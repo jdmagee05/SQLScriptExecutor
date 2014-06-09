@@ -38,6 +38,7 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnMySqlConnect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblServerAddress
@@ -106,17 +107,17 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(51, 216);
+            this.btnConnect.Location = new System.Drawing.Point(85, 199);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.Size = new System.Drawing.Size(127, 23);
             this.btnConnect.TabIndex = 8;
-            this.btnConnect.Text = "Connect";
+            this.btnConnect.Text = "Connect to SQLServer";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(152, 216);
+            this.btnCancel.Location = new System.Drawing.Point(110, 228);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -124,11 +125,23 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnMySqlConnect
+            // 
+            this.btnMySqlConnect.Location = new System.Drawing.Point(158, 199);
+            this.btnMySqlConnect.Name = "btnMySqlConnect";
+            this.btnMySqlConnect.Size = new System.Drawing.Size(114, 23);
+            this.btnMySqlConnect.TabIndex = 10;
+            this.btnMySqlConnect.Text = "Connect to MySQL";
+            this.btnMySqlConnect.UseVisualStyleBackColor = true;
+            this.btnMySqlConnect.Visible = false;
+            this.btnMySqlConnect.Click += new System.EventHandler(this.btnMySqlConnect_Click);
+            // 
             // frmServerConnector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.btnMySqlConnect);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.txtPassword);
@@ -140,6 +153,7 @@
             this.Controls.Add(this.lblDatabaseName);
             this.Controls.Add(this.lblServerAddress);
             this.Name = "frmServerConnector";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter DB info...";
             this.Load += new System.EventHandler(this.frmServerConnector_Load);
             this.ResumeLayout(false);
@@ -159,5 +173,6 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnMySqlConnect;
     }
 }
