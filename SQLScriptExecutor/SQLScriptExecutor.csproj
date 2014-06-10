@@ -54,29 +54,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
-    <Compile Include="ExecutorPresenter.cs" />
-    <Compile Include="frmExecutor.cs">
+    <Compile Include="Executor\ExecutorPresenter.cs" />
+    <Compile Include="Executor\frmExecutor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmExecutor.Designer.cs">
+    <Compile Include="Executor\frmExecutor.Designer.cs">
       <DependentUpon>frmExecutor.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmServerConnector.cs">
+    <Compile Include="ServerConnector\frmServerConnector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmServerConnector.Designer.cs">
+    <Compile Include="ServerConnector\frmServerConnector.Designer.cs">
       <DependentUpon>frmServerConnector.cs</DependentUpon>
     </Compile>
-    <Compile Include="IExecutor.cs" />
-    <Compile Include="IServerConnector.cs" />
+    <Compile Include="Executor\IExecutor.cs" />
+    <Compile Include="ServerConnector\IServerConnector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerConnectorPresenter.cs" />
+    <Compile Include="ServerConnector\ServerConnectorPresenter.cs" />
     <Compile Include="ServerType.cs" />
-    <EmbeddedResource Include="frmExecutor.resx">
+    <EmbeddedResource Include="Executor\frmExecutor.resx">
       <DependentUpon>frmExecutor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmServerConnector.resx">
+    <EmbeddedResource Include="ServerConnector\frmServerConnector.resx">
       <DependentUpon>frmServerConnector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
