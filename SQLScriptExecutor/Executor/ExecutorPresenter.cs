@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Common;
+using MySql.Data.MySqlClient;
 
 namespace SQLScriptExecutor
 {
@@ -100,7 +101,24 @@ namespace SQLScriptExecutor
 
         private void ExecuteMySql(string file)
         {
-            //TODO - implement code for executing MySql query
+            var fileInfo = new FileInfo(file);
+            string script = fileInfo.OpenText().ReadToEnd();
+            try
+            {
+                MySqlScript mySqlScript = new MySqlScript(m_View.MySqlConn, script);
+                mySqlScript.Execute();
+                m_View.Output += Path.GetFileNameWithoutExtension(file) + " executed successfully!\n";
+            }
+            catch(NullReferenceException)
+            {
+                m_View.Output += "CONNECT TO A SERVER\n";
+            }
+            catch (MySqlException ex)
+            {
+                m_View.Output += "FAILURE EXECUTING: " + Path.GetFileNameWithoutExtension(file) + "\n";
+                m_View.Output += ex.Message + "\n";
+            }
+
         }
 
         private void OpenServerConnector()
@@ -109,8 +127,8 @@ namespace SQLScriptExecutor
             serverConnection.ShowDialog();
             if (serverConnection.ConnectionSuccessful)
             {
-                m_View.Server = serverConnection.Server;
                 m_View.ServerType = serverConnection.ServerType;
+                CreateServerOrSqlConnection(serverConnection);
                 m_View.DatabaseName = serverConnection.DatabaseName;
                 m_View.ServerName = serverConnection.ServerName;
                 m_View.Output = "Connected to " + m_View.DatabaseName + " on " + m_View.ServerName + "\n";
@@ -124,6 +142,18 @@ namespace SQLScriptExecutor
             else
             {
                 m_View.Output += "CONNECTION FAILED!\n";
+            }
+        }
+
+        private void CreateServerOrSqlConnection(frmServerConnector serverConnection)
+        {
+            if (m_View.ServerType == ServerType.SqlServer)
+            {
+                m_View.Server = serverConnection.Server;
+            }
+            else if (m_View.ServerType == ServerType.MySql)
+            {
+                m_View.MySqlConn = serverConnection.MySqlConn;
             }
         }
 
@@ -155,22 +185,33 @@ namespace SQLScriptExecutor
             m_View.Output += "Disconnected from " + m_View.ServerName + "\n";
             m_View.ConnectButtonEnabled = true;
             m_View.DisconnectButtonEnabled = false;
-            ResetServerInformation();
+            ResetCommonInformation();
         }
 
         private void DisconnectFromSqlServer()
         {
             m_View.Server.ConnectionContext.Disconnect();
+            ResetSqlServerInformation();
         }
 
         private void DisconnectFromMySql()
         {
-            //TODO - implement code for disconnecting from MySql Server
+            m_View.MySqlConn.Close();
+            ResetMySqlInformation();
         }
 
-        private void ResetServerInformation()
+        private void ResetSqlServerInformation()
         {
             m_View.Server = null;
+        }
+
+        private void ResetMySqlInformation()
+        {
+            m_View.MySqlConn = null;
+        }
+
+        private void ResetCommonInformation()
+        {
             m_View.ServerType = ServerType.None;
             m_View.ServerName = null;
             m_View.DatabaseName = null;

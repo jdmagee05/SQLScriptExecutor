@@ -10,6 +10,7 @@ namespace SQLScriptExecutor
     {
         None = 0,
         SqlServer = 1,
-        MySql = 2
+        MySql = 2,
+        Oracle = 3
     };
 }

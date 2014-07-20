@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using MySql.Data.MySqlClient;
 
 namespace SQLScriptExecutor
 {
@@ -35,7 +36,6 @@ namespace SQLScriptExecutor
                 conn.Open();
                 m_View.Server = new Server(new ServerConnection(conn));
                 m_View.Form = DialogResult.OK;
-                m_View.MySqlButtonEnabled = false;
                 m_View.ServerType = ServerType.SqlServer;
                 m_View.ConnectionSuccessful = true;
             }
@@ -48,9 +48,29 @@ namespace SQLScriptExecutor
 
         private void ConnectToMySql()
         {
-            //TODO -  implement connection code
-            m_View.SqlServerButtonEnabled = false;
-            m_View.ServerType = ServerType.MySql;
+            MySqlConnection conn = new MySqlConnection(MySQLConnectionString());
+            try
+            {
+                conn.Open();
+                m_View.MySqlConn = conn;
+                m_View.Form = DialogResult.OK;
+                m_View.ConnectButtonEnabled = false;
+                m_View.ServerType = ServerType.MySql;
+                m_View.ConnectionSuccessful = true;
+            }
+            catch
+            {
+                m_View.Form = DialogResult.Abort;
+                m_View.ConnectionSuccessful = false;
+            }
+            
+        }
+
+        private void ConnectToOracleDB()
+        {
+            //TODO implement Connection code
+            m_View.ConnectButtonEnabled = false;
+            m_View.ServerType = ServerType.Oracle;
         }
 
         private void Cancel()
@@ -67,10 +87,14 @@ namespace SQLScriptExecutor
             return connectionString;
         }
 
-        private string MySqlConnectionString()
+        private string MySQLConnectionString()
         {
-            //TODO - code for connection string
-            return "";
+            string connectionString = "SERVER=" + m_View.ServerName + ";" +
+                                      "DATABASE=" + m_View.DatabaseName + ";" +
+                                      "UID=" + m_View.Username + ";" +
+                                      "PASSWORD=" + m_View.Password + ";";
+
+            return connectionString;
         }
     }
 }

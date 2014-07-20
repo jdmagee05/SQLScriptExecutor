@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Smo;
+using MySql.Data.MySqlClient;
 
 namespace SQLScriptExecutor
 {
@@ -48,6 +49,8 @@ namespace SQLScriptExecutor
 
         public Server Server { get; set; }
 
+        public MySqlConnection MySqlConn { get; set; }
+
         public ServerType ServerType { get; set; }
 
         public bool ConnectionSuccessful { get; set; }
@@ -58,20 +61,36 @@ namespace SQLScriptExecutor
             set { this.DialogResult = value; }
         }
 
-        public bool SqlServerButtonEnabled
+        public bool ConnectButtonEnabled
         {
             set { btnConnect.Enabled = value; }
         }
 
-        public bool MySqlButtonEnabled
+        #region private methods
+
+        private void Connect()
         {
-            set { btnMySqlConnect.Enabled = value; }
+            if (radioSqlServer.Checked)
+            {
+                ConnectToSqlServer();
+            }
+            else if (radioMySql.Checked)
+            {
+                ConnectToMySql();
+            }
+            else if (radioOracleDB.Checked)
+            {
+                ConnectToOracleDB();
+            }
         }
+
+        #endregion
 
         #endregion
 
         public event VoidHandler ConnectToSqlServer;
         public event VoidHandler ConnectToMySql;
+        public event VoidHandler ConnectToOracleDB;
         public event VoidHandler Cancel;
 
         #region Events
@@ -83,12 +102,7 @@ namespace SQLScriptExecutor
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            ConnectToSqlServer();
-        }
-
-        private void btnMySqlConnect_Click(object sender, EventArgs e)
-        {
-            ConnectToMySql();
+            Connect();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

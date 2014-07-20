@@ -38,7 +38,11 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnMySqlConnect = new System.Windows.Forms.Button();
+            this.grpServerTypes = new System.Windows.Forms.GroupBox();
+            this.radioSqlServer = new System.Windows.Forms.RadioButton();
+            this.radioMySql = new System.Windows.Forms.RadioButton();
+            this.radioOracleDB = new System.Windows.Forms.RadioButton();
+            this.grpServerTypes.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblServerAddress
@@ -107,17 +111,17 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(85, 199);
+            this.btnConnect.Location = new System.Drawing.Point(71, 337);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(127, 23);
+            this.btnConnect.Size = new System.Drawing.Size(69, 23);
             this.btnConnect.TabIndex = 8;
-            this.btnConnect.Text = "Connect to SQLServer";
+            this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(110, 228);
+            this.btnCancel.Location = new System.Drawing.Point(152, 337);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -125,23 +129,57 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // btnMySqlConnect
+            // grpServerTypes
             // 
-            this.btnMySqlConnect.Location = new System.Drawing.Point(158, 199);
-            this.btnMySqlConnect.Name = "btnMySqlConnect";
-            this.btnMySqlConnect.Size = new System.Drawing.Size(114, 23);
-            this.btnMySqlConnect.TabIndex = 10;
-            this.btnMySqlConnect.Text = "Connect to MySQL";
-            this.btnMySqlConnect.UseVisualStyleBackColor = true;
-            this.btnMySqlConnect.Visible = false;
-            this.btnMySqlConnect.Click += new System.EventHandler(this.btnMySqlConnect_Click);
+            this.grpServerTypes.Controls.Add(this.radioOracleDB);
+            this.grpServerTypes.Controls.Add(this.radioMySql);
+            this.grpServerTypes.Controls.Add(this.radioSqlServer);
+            this.grpServerTypes.Location = new System.Drawing.Point(42, 210);
+            this.grpServerTypes.Name = "grpServerTypes";
+            this.grpServerTypes.Size = new System.Drawing.Size(200, 106);
+            this.grpServerTypes.TabIndex = 10;
+            this.grpServerTypes.TabStop = false;
+            this.grpServerTypes.Text = "Select Server Type";
+            // 
+            // radioSqlServer
+            // 
+            this.radioSqlServer.AutoSize = true;
+            this.radioSqlServer.Location = new System.Drawing.Point(6, 19);
+            this.radioSqlServer.Name = "radioSqlServer";
+            this.radioSqlServer.Size = new System.Drawing.Size(80, 17);
+            this.radioSqlServer.TabIndex = 0;
+            this.radioSqlServer.TabStop = true;
+            this.radioSqlServer.Text = "SQL Server";
+            this.radioSqlServer.UseVisualStyleBackColor = true;
+            // 
+            // radioMySql
+            // 
+            this.radioMySql.AutoSize = true;
+            this.radioMySql.Location = new System.Drawing.Point(6, 54);
+            this.radioMySql.Name = "radioMySql";
+            this.radioMySql.Size = new System.Drawing.Size(60, 17);
+            this.radioMySql.TabIndex = 1;
+            this.radioMySql.TabStop = true;
+            this.radioMySql.Text = "MySQL";
+            this.radioMySql.UseVisualStyleBackColor = true;
+            // 
+            // radioOracleDB
+            // 
+            this.radioOracleDB.AutoSize = true;
+            this.radioOracleDB.Location = new System.Drawing.Point(6, 83);
+            this.radioOracleDB.Name = "radioOracleDB";
+            this.radioOracleDB.Size = new System.Drawing.Size(105, 17);
+            this.radioOracleDB.TabIndex = 2;
+            this.radioOracleDB.TabStop = true;
+            this.radioOracleDB.Text = "Oracle Database";
+            this.radioOracleDB.UseVisualStyleBackColor = true;
             // 
             // frmServerConnector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.btnMySqlConnect);
+            this.ClientSize = new System.Drawing.Size(284, 382);
+            this.Controls.Add(this.grpServerTypes);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.txtPassword);
@@ -156,6 +194,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter DB info...";
             this.Load += new System.EventHandler(this.frmServerConnector_Load);
+            this.grpServerTypes.ResumeLayout(false);
+            this.grpServerTypes.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,6 +213,9 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnMySqlConnect;
+        private System.Windows.Forms.GroupBox grpServerTypes;
+        private System.Windows.Forms.RadioButton radioSqlServer;
+        private System.Windows.Forms.RadioButton radioOracleDB;
+        private System.Windows.Forms.RadioButton radioMySql;
     }
 }

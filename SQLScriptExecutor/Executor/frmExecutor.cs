@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Smo;
+using MySql.Data.MySqlClient;
 
 namespace SQLScriptExecutor
 {
@@ -61,6 +62,8 @@ namespace SQLScriptExecutor
         }
 
         public Server Server { get; set; }
+
+        public MySqlConnection MySqlConn { get; set; }
 
         public ServerType ServerType { get; set; }
 

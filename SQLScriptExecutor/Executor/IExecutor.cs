@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Smo;
+using MySql.Data.MySqlClient;
 
 namespace SQLScriptExecutor
 {
@@ -15,6 +16,7 @@ namespace SQLScriptExecutor
         ListView FileViewer { get; set; }
         string[] RecentlyAddedFiles { get; set; }
         Server Server { get; set; }
+        MySqlConnection MySqlConn { get; set; }
         ServerType ServerType { get; set; }
         string DatabaseName { get; set; }
         string ServerName { get; set; }
